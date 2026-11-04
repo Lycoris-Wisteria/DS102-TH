@@ -3,12 +3,12 @@ import idx2numpy
 from logistic_regression import LogisticRegression
 import cv2 as cv
 
-train_images = idx2numpy.convert_from_file("Dataset/Train/train-images.idx3-ubyte")
-train_labels = idx2numpy.convert_from_file("Dataset/Train/train-labels.idx1-ubyte")
-train_set = (train_images, train_labels)
+train_images = idx2numpy.convert_from_file("dataset/train/train-images.idx3-ubyte")
+train_labels = idx2numpy.convert_from_file("dataset/train/train-labels.idx1-ubyte")
+train_set = (train_images, train_labels) 
 
-test_images = idx2numpy.convert_from_file("Dataset/Test/t10k-images.idx3-ubyte")
-test_labels = idx2numpy.convert_from_file("Dataset/Test/t10k-labels.idx1-ubyte")
+test_images = idx2numpy.convert_from_file("dataset/test/t10k-images.idx3-ubyte")
+test_labels = idx2numpy.convert_from_file("dataset/test/t10k-labels.idx1-ubyte")
 test_set = (test_images, test_labels)
 
 def filter_data(data, criterion):
@@ -44,13 +44,14 @@ test_set = merge_data([
     test_set_1
 ])
 
-train_images, train_labels = train_set
-model = LogisticRegression(learning_rate=0.2, epochs=100)
-model.fit(train_images, train_labels)
+if __name__ == "__main__":
+    train_images, train_labels = train_set
+    model = LogisticRegression(learning_rate=0.2, epochs=100)
+    model.fit(train_images, train_labels)
 
-test_images, test_labels = test_set
-metrics = model.evaluate(test_images, test_labels)
-for key, value in metrics.items():
-    print(f"{key}: {value}")
+    test_images, test_labels = test_set
+    metrics = model.evaluate(test_images, test_labels)
+    for key, value in metrics.items():
+        print(f"{key}: {value}")
 
-np.save("visualize/loss_history_logistic.npy", model.loss_history)
+    np.save("visualize/loss_history_logistic.npy", model.loss_history)
