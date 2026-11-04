@@ -11,21 +11,21 @@ def convert_to_one_hot(y: np.ndarray):
 
     return oh_y
 
+train_images = idx2numpy.convert_from_file("dataset/train/train-images.idx3-ubyte")
+train_labels = idx2numpy.convert_from_file("dataset/train/train-labels.idx1-ubyte")
+
+train_images= train_images.reshape(-1, 784)/255 # ổn định khoảng giá trị cho X đầu vào
+train_labels = convert_to_one_hot(train_labels)
+train_set=(train_images, train_labels)
+
+test_images = idx2numpy.convert_from_file("dataset/test/t10k-images.idx3-ubyte")
+test_labels = idx2numpy.convert_from_file("dataset/test/t10k-labels.idx1-ubyte")
+
+test_images= test_images.reshape(-1, 784)/255
+test_labels = convert_to_one_hot(test_labels)
+test_set = (test_images, test_labels)
+
 if __name__ == "__main__":
-
-    train_images = idx2numpy.convert_from_file("Dataset/Train/train-images.idx3-ubyte")
-    train_labels = idx2numpy.convert_from_file("Dataset/Train/train-labels.idx1-ubyte")
-    
-    train_images= train_images.reshape(-1, 784)/255 # ổn định khoảng giá trị cho X đầu vào
-    train_labels = convert_to_one_hot(train_labels)
-    train_set=(train_images, train_labels)
-
-    test_images = idx2numpy.convert_from_file("Dataset/Test/t10k-images.idx3-ubyte")
-    test_labels = idx2numpy.convert_from_file("Dataset/Test/t10k-labels.idx1-ubyte")
-    
-    test_images= test_images.reshape(-1, 784)/255
-    test_labels = convert_to_one_hot(test_labels)
-    test_set = (test_images, test_labels)
 
     train_images, train_labels = train_set
     model = SoftmaxRegression(epochs=100, learning_rate=0.2)
@@ -35,6 +35,6 @@ if __name__ == "__main__":
     metrics = model.evaluate(test_images, test_labels)
     for key, value in metrics.items():
         print(f"{key}: {value}" )
-
-np.save("visualize/loss_history_softmax.npy", model.loss_history)
+        
+    np.save("visualize/loss_history_softmax.npy", model.loss_history)
 
